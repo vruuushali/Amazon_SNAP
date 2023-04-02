@@ -1,0 +1,12 @@
+CREATE QUERY GetRec2(STRING asin_id, STRING group_val, STRING category_val, INT top_n) FOR GRAPH new1 {
+  s1 = SELECT t FROM ASIN:a - (has_group:b) - groupyy:g - (falls_under:i) - categoryyy:c - (belongs_to:f) - ASIN:t
+       WHERE a.asins == asin_id
+         AND g.groups == group_val
+         AND c.categories_list == category_val
+         AND a != t
+         AND t.salesranks > 0
+         AND t.avg_rating > 3.0
+       ORDER BY t.salesranks ASC
+       LIMIT top_n;
+  PRINT s1;
+}
